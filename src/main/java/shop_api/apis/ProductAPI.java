@@ -50,54 +50,6 @@ public class ProductAPI {
                 .then().log().body();
     }
 
-
-    public String getProductID(String description, int manufacturer) {
-        String path = String.format("findAll {it.description == '%s'}", description);
-        String query = HOST + PRODUCTS;
-
-        List<Product> product = given()
-                .when().get(query)
-                .then().log().body()
-                .extract().body().jsonPath().getList(path, Product.class);
-
-        return product.stream()
-                .filter(p -> p.getManufacturer() == manufacturer)
-                .map(Product::getId)
-                .findFirst()
-                .get();
-    }
-
-    public float getProductPrice(String description) {
-        String path = String.format("findAll {it.description == '%s'}", description);
-        String query = HOST + PRODUCTS;
-
-        List<Product> product = given()
-                .when().get(query)
-                .then()
-                .extract().body().jsonPath().getList(path, Product.class);
-
-        return product.stream()
-                .map(Product::getPrice)
-                .findFirst()
-                .get();
-    }
-
-    public float getProductPrice(String description, int manufacturer) {
-        String path = String.format("findAll {it.description == '%s'}", description);
-        String query = HOST + PRODUCTS;
-
-        List<Product> product = given()
-                .when().get(query)
-                .then()
-                .extract().body().jsonPath().getList(path, Product.class);
-
-        return product.stream()
-                .filter(p -> p.getManufacturer() == manufacturer)
-                .map(Product::getPrice)
-                .findFirst()
-                .get();
-    }
-
     public String getProductDescription(String description) {
         return getAllProduct().stream()
                 .map(Product::getDescription)
