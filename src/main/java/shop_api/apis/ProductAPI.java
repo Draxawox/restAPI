@@ -41,6 +41,12 @@ public class ProductAPI {
                 .then().log().body();
     }
 
+    public Product getProductById(String productId) {
+        return when().get(HOST + PRODUCTS + SEPARATOR + productId)
+                .then().log().all()
+                .extract().body().as(Product.class);
+    }
+
     public void updateProductByID(String description, String id, int manufacturer, Float newPrice) {
         Product product = new Product(description, id, manufacturer, newPrice);
 
@@ -65,4 +71,6 @@ public class ProductAPI {
                 .extract()
                 .body().asString();
     }
+
+
 }
