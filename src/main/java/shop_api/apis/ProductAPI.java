@@ -11,13 +11,13 @@ import static io.restassured.RestAssured.when;
 
 public class ProductAPI {
     private final String HOST;
-    private final Environment env;
+    private final Environment environment;
 
     private final String PRODUCTS = "/products";
     private final String SEPARATOR = "/";
 
     public ProductAPI(Environment env) {
-        this.env = env;
+        this.environment = env;
         HOST = env.getHost();
     }
 
@@ -39,20 +39,6 @@ public class ProductAPI {
                 .body(product)
                 .when().post(query)
                 .then().log().body();
-    }
-
-    public String getProductID(String description) {
-        String path = String.format("findAll {it.description == '%s'}", description);
-        String query = HOST + PRODUCTS;
-        List<Product> product = given()
-                .when().get(query)
-                .then().log().body()
-                .extract().body().jsonPath().getList(path, Product.class);
-
-        return product.stream()
-                .map(Product::getId)
-                .findFirst()
-                .get();
     }
 
     public void updateProductByID(String description, String id, int manufacturer, Float newPrice) {
